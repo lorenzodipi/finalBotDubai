@@ -65,7 +65,7 @@ def write_name(nick, name, surname):
     try:
         with open("nomi.json", "a") as f:
             # Crea un dizionario con i dati dell'utente
-            user_data = {"nickname": user_nickname, "first_name": user_first_name, "last_name": user_last_name}
+            user_data = {"nickname": nick, "first_name": name, "last_name": surname}
             # Scrivi i dati dell'utente nel file JSON
             json.dump(user_data, f)
             f.write('\n')
