@@ -210,7 +210,8 @@ def get_menu():
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument('--disable-dev-shm-usage')
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="90.0.4430.24").install()),options=chrome_options) #(version="90.0.4430.24")
+        # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="90.0.4430.24").install()),options=chrome_options) #(version="90.0.4430.24")
+        driver = webdriver.Chrome(service=Service("./chromedriver"), options=chrome_options)
         driver.delete_all_cookies()
 
         # driver = setup()
