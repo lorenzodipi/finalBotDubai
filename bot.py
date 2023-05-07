@@ -440,7 +440,7 @@ if __name__ == "__main__":
     t2=Thread(target = schedule_checker)
     t2.daemon = True
     t2.start()
-    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5555)))
+    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5599)))
     bot.idle()
 
 #
