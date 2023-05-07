@@ -70,7 +70,7 @@ def write_name(nick, name, surname):
             json.dump(user_data, f)
             f.write('\n')
     except:
-        print("Errore user data write")
+        print("Errore user data writeeee")
 
 def write_txt(file, text):
     f = open(file, 'w', encoding='utf8')
