@@ -62,15 +62,12 @@ def write_id(id):
         file.write(str(id) + "\n")
 
 def write_name(nick, name, surname):
-    try:
-        with open("nomi.json", "a") as f:
-            # Crea un dizionario con i dati dell'utente
-            user_data = {"nickname": nick, "first_name": name, "last_name": surname}
-            # Scrivi i dati dell'utente nel file JSON
-            json.dump(user_data, f)
-            f.write('\n')
-    except:
-        print("Errore user data writeeee")
+     with open("nomi.json", "a") as f:
+         # Crea un dizionario con i dati dell'utente
+         user_data = {"nickname": nick, "first_name": name, "last_name": surname}
+         # Scrivi i dati dell'utente nel file JSON
+         json.dump(user_data, f)
+         f.write('\n')
 
 def write_txt(file, text):
     f = open(file, 'w', encoding='utf8')
