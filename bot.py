@@ -106,14 +106,11 @@ def send_menu(menu):
 def send_welcome(message):
     print("START")
     user_id = message.chat.id
-    try:
-        user_nickname = message.chat.username
-        user_first_name = message.chat.first_name
-        user_last_name = message.chat.last_name
+    user_nickname = message.chat.username
+    user_first_name = message.chat.first_name
+    user_last_name = message.chat.last_name
 
-        write_name(user_nickname,user_first_name,user_last_name)
-    except:
-        print("Errore user data main")
+    write_name(user_nickname,user_first_name,user_last_name)
 
     if str(user_id) in read_ids():
         bot.send_message(user_id, 'Sei già presente nel database! Appena disponibile ti sarà inviato il menu del giorno.')
