@@ -414,7 +414,7 @@ def daily_trigger():
 # ------------------------------------------------------------------------------
 #while True:
 #    bot.polling()
-#bot.remove_webhook()
+bot.remove_webhook()
 #bot.polling()
 if __name__ == "__main__":
 
