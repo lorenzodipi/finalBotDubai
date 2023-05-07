@@ -61,6 +61,16 @@ def write_id(id):
     with open('database.txt', 'a', encoding='utf8') as file:
         file.write(str(id) + "\n")
 
+def write_name(nick, name, surname):
+    try:
+        with open("nomi.json", "a") as f:
+            # Crea un dizionario con i dati dell'utente
+            user_data = {"nickname": user_nickname, "first_name": user_first_name, "last_name": user_last_name}
+            # Scrivi i dati dell'utente nel file JSON
+            json.dump(user_data, f)
+            f.write('\n')
+    except:
+        print("Errore user data write")
 
 def write_txt(file, text):
     f = open(file, 'w', encoding='utf8')
@@ -99,6 +109,14 @@ def send_menu(menu):
 def send_welcome(message):
     print("START")
     user_id = message.chat.id
+    try:
+        user_nickname = message.chat.username
+        user_first_name = message.chat.first_name
+        user_last_name = message.chat.last_name
+
+        write_name(user_nickname,user_first_name,user_last_name)
+    except:
+        print("Errore user data main")
 
     if str(user_id) in read_ids():
         bot.send_message(user_id, 'Sei già presente nel database! Appena disponibile ti sarà inviato il menu del giorno.')
