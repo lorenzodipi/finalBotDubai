@@ -63,12 +63,29 @@ def write_id(id):
         file.write(str(id) + "\n")
 
 def write_name(nick, name, surname):
-     with open("nomi.json", "a") as f:
-         # Crea un dizionario con i dati dell'utente
-         user_data = {"nickname": nick, "first_name": name, "last_name": surname}
-         # Scrivi i dati dell'utente nel file JSON
-         json.dump(user_data, f)
-         f.write('\n')
+    with open("nomi.json", "r+") as f:
+        # Leggi il contenuto del file
+        content = f.read()
+        # Se il file è vuoto, scrivi direttamente il nuovo record
+        if not content:
+            user_data = {"nickname": nick, "first_name": name, "last_name": surname}
+            json.dump(user_data, f)
+            f.write('\n')
+        else:
+            # Altrimenti, cerca se esiste già un record con lo stesso nickname
+            f.seek(0)  # torna all'inizio del file
+            found = False
+            for line in f:
+                record = json.loads(line)
+                if record["nickname"] == nick:
+                    found = True
+                    break
+            # Se non esiste già un record con lo stesso nickname, aggiungi il nuovo record
+            if not found:
+                f.seek(0, 2)  # vai alla fine del file
+                user_data = {"nickname": nick, "first_name": name, "last_name": surname}
+                json.dump(user_data, f)
+                f.write('\n')
 
 def write_txt(file, text):
     f = open(file, 'w', encoding='utf8')
@@ -411,7 +428,7 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
-    #update_wrapper()
+    update_wrapper()
 
 
     TIME = "09:00"
