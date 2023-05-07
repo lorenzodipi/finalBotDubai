@@ -398,7 +398,7 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
-    update_wrapper()
+    #update_wrapper()
 
 
     TIME = "09:00"
