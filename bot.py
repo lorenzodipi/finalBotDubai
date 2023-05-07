@@ -379,6 +379,7 @@ def update():
 
 def update_wrapper():
     t = threading.Thread(target=update)
+    t.daemon = True
     t.start()
 
 def daily_trigger():
@@ -411,7 +412,9 @@ if __name__ == "__main__":
 
 
 
-    Thread(target = schedule_checker).start()
+    t2=Thread(target = schedule_checker)
+    t2.daemon = True
+    t2.start()
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 8501)))
     bot.idle()
 
