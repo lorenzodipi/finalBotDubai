@@ -48,12 +48,6 @@ def getMessage():
     bot.process_new_updates([update])
     return "!", 200
 
-@server.route("/")
-def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url='https://botdcl.herokuapp.com/' + TOKEN)
-    return "!", 200
-
 # ------------------------------------------------------------------------------
 
 
