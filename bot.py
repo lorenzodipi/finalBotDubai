@@ -114,7 +114,7 @@ def read_ids():
 
 
 def delete_element(id):
-    dati = leggi_database()
+    dati = read_ids()
 
     dati = [dato for dato in dati if dato.get('id') != id]
     with open('database.json', 'w', encoding='utf8') as file:
