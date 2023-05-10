@@ -124,14 +124,9 @@ def delete_element(id_to_delete):
 
 
 def send_menu(menu):
-    #database = read_ids()
-    #for id in database:
-     #   if(id!=""):
-      #      bot.send_message(int(id), menu)
     database = read_ids()
-    for item in database:
-        id = item.get('id')
-        if id is not None:
+    for id in database:
+        if id != "":
             bot.send_message(int(id), menu)
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
