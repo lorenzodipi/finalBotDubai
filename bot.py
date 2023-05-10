@@ -53,8 +53,20 @@ def getMessage():
 
 def write_id(id):
 
-    with open('database.txt', 'a', encoding='utf8') as file:
-        file.write(str(id) + "\n")
+    #with open('database.txt', 'a', encoding='utf8') as file:
+     #   file.write(str(id) + "\n")
+
+     dati = {"id": id}
+     try:
+        with open("database.json", "r") as file:
+            dati_esistenti = json.load(file)
+     except FileNotFoundError:
+        dati_esistenti = []
+
+     dati_esistenti.append(dati)
+
+     with open("database.json", "w") as file:
+        json.dump(dati_esistenti, file)
 
 def write_name(nick, name, surname):
     with open("nomi.json", "r+") as f:
@@ -89,23 +101,22 @@ def write_txt(file, text):
 
 def read_ids():
     #database = open('database.txt', 'r', encoding='utf8')
-    #list = database.read().split('\n')
+    #lines = database.read().split('\n')
     #database.close()
+    #lines = list(filter(lambda x: x != '', lines))
     #return lines
-    database = open('database.txt', 'r', encoding='utf8')
-    lines = database.read().split('\n')
-    database.close()
-    lines = list(filter(lambda x: x != '', lines))
-    return lines
+    with open('database.json', 'r', encoding='utf8') as file:
+        contenuto = file.read()
+    dati = json.loads(contenuto)
+    return dati
 
 
 def delete_element(id):
-    database = read_ids()
-    try:
-        database.remove(id)
-        write_txt('database.txt',"\n".join(database))
-    except:
-        print("ID INESISTENTE")
+    dati = leggi_database()
+
+    dati = [dato for dato in dati if dato.get('id') != id_da_rimuovere]
+    with open('database.json', 'w', encoding='utf8') as file:
+        file.write(json.dumps(dati))
 
 
 def send_menu(menu):
