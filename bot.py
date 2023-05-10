@@ -104,7 +104,7 @@ def read_ids():
         with open('database.json', 'r', encoding='utf8') as file:
             contenuto = file.read()
         dati = json.loads(contenuto)
-        ids = [d['id'] for d in dati]
+        ids = [str(d['id']) for d in dati]
         print(ids)
     except:
         print("No dati")
