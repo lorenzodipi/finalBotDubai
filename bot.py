@@ -100,11 +100,6 @@ def write_txt(file, text):
 
 
 def read_ids():
-    #database = open('database.txt', 'r', encoding='utf8')
-    #lines = database.read().split('\n')
-    #database.close()
-    #lines = list(filter(lambda x: x != '', lines))
-    #return lines
     try:
         with open('database.json', 'r', encoding='utf8') as file:
             contenuto = file.read()
@@ -124,9 +119,14 @@ def delete_element(id):
 
 
 def send_menu(menu):
+    #database = read_ids()
+    #for id in database:
+     #   if(id!=""):
+      #      bot.send_message(int(id), menu)
     database = read_ids()
-    for id in database:
-        if(id!=""):
+    for item in database:
+        id = item.get('id')
+        if id is not None:
             bot.send_message(int(id), menu)
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
