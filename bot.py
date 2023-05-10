@@ -104,8 +104,12 @@ def read_ids():
         with open('database.json', 'r', encoding='utf8') as file:
             contenuto = file.read()
         dati = json.loads(contenuto)
+        print(dati)
     except:
+        print("No dati")
         dati = []
+        
+    
     
     return dati
 
