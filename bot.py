@@ -104,14 +104,13 @@ def read_ids():
         with open('database.json', 'r', encoding='utf8') as file:
             contenuto = file.read()
         dati = json.loads(contenuto)
-        print(dati)
+        ids = [d['id'] for d in dati]
+        print(ids)
     except:
         print("No dati")
-        dati = []
+        ids = []
         
-    
-    
-    return dati
+    return ids
 
 
 def delete_element(id):
