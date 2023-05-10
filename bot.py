@@ -105,9 +105,13 @@ def read_ids():
     #database.close()
     #lines = list(filter(lambda x: x != '', lines))
     #return lines
-    with open('database.json', 'r', encoding='utf8') as file:
-        contenuto = file.read()
-    dati = json.loads(contenuto)
+    try:
+        with open('database.json', 'r', encoding='utf8') as file:
+            contenuto = file.read()
+        dati = json.loads(contenuto)
+    except:
+        dati = []
+    
     return dati
 
 
@@ -433,7 +437,7 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
-    #update_wrapper()
+    update_wrapper()
 
 
     TIME = "09:00"
