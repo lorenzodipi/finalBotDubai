@@ -130,7 +130,7 @@ def send_menu(menu):
             try:
                 bot.send_message(int(id), menu)
             except Forbidden:
-                delete_element(str(user_id))
+                delete_element(str(id))
             except:
                 print("Errore")
                 
