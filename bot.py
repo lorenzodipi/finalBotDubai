@@ -127,7 +127,13 @@ def send_menu(menu):
     database = read_ids()
     for id in database:
         if id != "":
-            bot.send_message(int(id), menu)
+            try:
+                bot.send_message(int(id), menu)
+            except Forbidden:
+                delete_element(str(user_id))
+            except:
+                print("Errore")
+                
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -437,7 +443,7 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
-    update_wrapper()
+    #update_wrapper()
 
 
     TIME = "09:00"
