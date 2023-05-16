@@ -237,7 +237,7 @@ def stats(message):
         user_id = message.chat.id
         print("STATS")
         print(user_id)
-        if(user_id=="220450935" or user_id=="168648726"):
+        if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             num_db = conta_database("database.json")
             num_nomi = conta_nomi("nomi.json")
             bot.send_message(user_id, str(num_db))
@@ -251,7 +251,7 @@ def names(message):
         user_id = message.chat.id
         print("NOMI")
         print(user_id)
-        if(user_id=="220450935" or user_id=="168648726"):
+        if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             nomi = leggi_nomi("nomi.json")
             bot.send_message(user_id, str(nomi))
     except:
@@ -263,7 +263,7 @@ def databaseID(message):
         user_id = message.chat.id
         print("DATABASE")
         print(user_id)
-        if(user_id=="220450935" or user_id=="168648726"):
+        if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             db = leggi_database("database.json")
             bot.send_message(user_id, str(db))
     except:
