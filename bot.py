@@ -171,8 +171,7 @@ def leggi_nomi(file_path):
     with open(file_path) as file:
         for line in file:
             try:
-                elemento = json.loads(line)
-                dati.append(elemento)
+                dati.append(line)
             except json.JSONDecodeError:
                 continue
 
