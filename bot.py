@@ -92,6 +92,35 @@ def write_name(nick, name, surname):
                 user_data = {"nickname": nick, "first_name": name, "last_name": surname}
                 json.dump(user_data, f)
                 f.write('\n')
+                
+                
+def add_name(nickname, first_name, last_name):
+    # Leggi il contenuto del file JSON
+    with open("nomi.json", 'r') as file:
+        try:
+            data = json.load(file)
+        except json.JSONDecodeError:
+            # Se il file è vuoto o non ha un formato JSON valido, inizializza data come una lista vuota
+            data = []
+
+    # Verifica se l'elemento esiste già nel file
+    elementi_esistenti = [elemento for elemento in data if elemento.get('nickname') == nickname]
+    if elementi_esistenti:
+        return
+
+    # Crea il nuovo elemento da aggiungere
+    nuovo_elemento = {
+        'nickname': nickname,
+        'first_name': first_name,
+        'last_name': last_name
+    }
+
+    # Aggiungi il nuovo elemento alla lista dei dati
+    data.append(nuovo_elemento)
+
+    # Scrivi i dati aggiornati nel file JSON
+    with open("nomi.json", 'w') as file:
+        json.dump(data, file, indent=4)
 
 def write_txt(file, text):
     f = open(file, 'w', encoding='utf8')
@@ -185,8 +214,12 @@ def send_welcome(message):
     user_nickname = message.chat.username
     user_first_name = message.chat.first_name
     user_last_name = message.chat.last_name
-
-    write_name(user_nickname,user_first_name,user_last_name)
+    
+    try:
+        #write_name(user_nickname,user_first_name,user_last_name)
+        add_name(user_nickname,user_first_name,user_last_name)
+    except:
+        print("Errore scrittura nome")
 
     if str(user_id) in read_ids():
         bot.send_message(user_id, 'Sei già presente nel database! Appena disponibile ti sarà inviato il menu del giorno.')
