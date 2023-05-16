@@ -189,11 +189,11 @@ def leggi_nomi(file_path):
 
     elementi = []
     for elemento in data:
-        campi = list(elemento.values())
+        campi = [campo for campo in elemento.values() if campo is not None]
         elementi.append(" - ".join(campi))
 
     risultato = "\n".join(elementi)
-    return risultato              
+    return risultato           
                 
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
