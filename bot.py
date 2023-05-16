@@ -196,15 +196,15 @@ def leggi_database(file_path):
 
 
 def leggi_nomi(file_path):
-    dati = []
     with open(file_path) as file:
-        for line in file:
-            try:
-                dati.append(line)
-            except json.JSONDecodeError:
-                continue
+        data = json.load(file)
 
-    return dati                
+    elementi = []
+    for elemento in data:
+        campi = list(elemento.values())
+        elementi.append(campi)
+
+    return elementi               
                 
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
@@ -284,7 +284,7 @@ def names(message):
         print("NOMI")
         print(user_id)
         if(str(user_id)=="220450935" or str(user_id)=="168648726"):
-            nomi = leggi_database("nomi.json")
+            nomi = leggi_nomi("nomi.json")
             bot.send_message(user_id, str(nomi))
     except:
         print("Errore lettura nomi")
