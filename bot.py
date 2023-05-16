@@ -143,6 +143,7 @@ def read_ids():
 
 
 def delete_element(id_to_delete):
+    
     with open('database.json', 'r', encoding='utf8') as file:
         dati = json.load(file)
     
