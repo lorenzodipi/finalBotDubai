@@ -184,7 +184,7 @@ def leggi_database(file_path):
 
 
 def leggi_nomi(file_path):
-        with open(file_path) as file:
+    with open(file_path) as file:
         data = json.load(file)
 
     elementi = []
