@@ -134,6 +134,50 @@ def send_menu(menu):
             except:
                 print("Errore")
                 
+def conta_database(file_path):
+    with open(file_path, 'r') as json_file:
+        data = json.load(json_file)
+        record_count = len(data)
+        return record_count
+
+def conta_nomi(file_path):
+    record_count = 0
+    with open(file_path, 'r') as json_file:
+        for line in json_file:
+            try:
+                json_obj = json.loads(line)
+                if isinstance(json_obj, dict):  # Controlla se l'oggetto è un dizionario
+                    record_count += 1
+            except json.JSONDecodeError:
+                # Ignora le righe non valide nel file
+                continue
+    return record_count
+
+
+def leggi_database(file_path):
+    with open(file_path) as file:
+        data = json.load(file)
+
+    elementi = []
+    for elemento in data:
+        campo = elemento[list(elemento.keys())[0]]
+        elementi.append(campo)
+
+    return elementi
+
+
+def leggi_nomi(file_path):
+    dati = []
+    with open(file_path) as file:
+        for line in file:
+            try:
+                elemento = json.loads(line)
+                dati.append(elemento)
+            except json.JSONDecodeError:
+                continue
+
+    return dati                
+                
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -185,6 +229,39 @@ def helper(message):
         bot.send_message(user_id, 'In questo bot potrai utilizzare i seguenti comandi:\n - /start per inserire il tuo id nel nostro database (ci serve solo per inviarti il menu!)\n - /stop per rimuovere il tuo id dal database quando lo vorrai\n - /help per farti inviare questo messaggio\n - /autori per sapere chi ha fatto questo bot')
     else:
         bot.send_message(user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi")
+        
+        
+@bot.message_handler(commands=['stats'])
+def stats(message):
+    try:
+        user_id = message.chat.id
+        if(user_id=="220450935" or user_id=="168648726"):
+            num_db = conta_database("database.json")
+            num_nomi = conta_nomi("nomi.json")
+            bot.send_message(user_id, str(num_db))
+            bot.send_message(user_id, str(num_nomi))
+    except:
+        print("Errore conteggio")
+
+@bot.message_handler(commands=['nomi'])
+def names(message):
+    try:
+        user_id = message.chat.id
+        if(user_id=="220450935" or user_id=="168648726"):
+            nomi = leggi_nomi("nomi.json")
+            bot.send_message(user_id, str(nomi))
+    except:
+        print("Errore lettura nomi")
+
+@bot.message_handler(commands=['database'])
+def databaseID(message):
+    try:
+        user_id = message.chat.id
+        if(user_id=="220450935" or user_id=="168648726"):
+            db = leggi_database("database.json")
+            bot.send_message(user_id, str(db))
+    except:
+        print("Errore lettura database")        
 # ------------------------------------------------------------------------------
 def schedule_checker():
     while True:
