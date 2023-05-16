@@ -235,6 +235,8 @@ def helper(message):
 def stats(message):
     try:
         user_id = message.chat.id
+        print("STATS")
+        print(user_id)
         if(user_id=="220450935" or user_id=="168648726"):
             num_db = conta_database("database.json")
             num_nomi = conta_nomi("nomi.json")
@@ -247,6 +249,8 @@ def stats(message):
 def names(message):
     try:
         user_id = message.chat.id
+        print("NOMI")
+        print(user_id)
         if(user_id=="220450935" or user_id=="168648726"):
             nomi = leggi_nomi("nomi.json")
             bot.send_message(user_id, str(nomi))
@@ -257,6 +261,8 @@ def names(message):
 def databaseID(message):
     try:
         user_id = message.chat.id
+        print("DATABASE")
+        print(user_id)
         if(user_id=="220450935" or user_id=="168648726"):
             db = leggi_database("database.json")
             bot.send_message(user_id, str(db))
