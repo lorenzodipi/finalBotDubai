@@ -169,19 +169,6 @@ def conta_database(file_path):
         record_count = len(data)
         return record_count
 
-def conta_nomi(file_path):
-    record_count = 0
-    with open(file_path, 'r') as json_file:
-        for line in json_file:
-            try:
-                json_obj = json.loads(line)
-                if isinstance(json_obj, dict):  # Controlla se l'oggetto è un dizionario
-                    record_count += 1
-            except json.JSONDecodeError:
-                # Ignora le righe non valide nel file
-                continue
-    return record_count
-
 
 def leggi_database(file_path):
     with open(file_path) as file:
@@ -196,15 +183,16 @@ def leggi_database(file_path):
 
 
 def leggi_nomi(file_path):
-    with open(file_path) as file:
+        with open(file_path) as file:
         data = json.load(file)
 
     elementi = []
     for elemento in data:
         campi = list(elemento.values())
-        elementi.append(campi)
+        elementi.append(" - ".join(campi))
 
-    return elementi               
+    risultato = "\n".join(elementi)
+    return risultato              
                 
 # ------------------------------------------------------------------------------
 @bot.message_handler(commands=['start'])
