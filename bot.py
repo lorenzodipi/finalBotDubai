@@ -271,7 +271,7 @@ def stats(message):
         print(user_id)
         if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             num_db = conta_database("database.json")
-            num_nomi = conta_nomi("nomi.json")
+            num_nomi = conta_database("nomi.json")
             bot.send_message(user_id, str(num_db))
             bot.send_message(user_id, str(num_nomi))
     except:
@@ -284,7 +284,7 @@ def names(message):
         print("NOMI")
         print(user_id)
         if(str(user_id)=="220450935" or str(user_id)=="168648726"):
-            nomi = leggi_nomi("nomi.json")
+            nomi = leggi_database("nomi.json")
             bot.send_message(user_id, str(nomi))
     except:
         print("Errore lettura nomi")
