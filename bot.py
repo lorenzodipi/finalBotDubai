@@ -1,6 +1,7 @@
 import os
 import re
 import threading
+import queue
 
 import schedule
 import telebot
@@ -196,6 +197,13 @@ def leggi_nomi(file_path):
     return risultato           
                 
 # ------------------------------------------------------------------------------
+def process_message_queue():
+    while True:
+        user_id, text = message_queue.get()
+        bot.send_message(user_id, str(text))
+        message_queue.task_done()
+
+
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     print("START")
@@ -211,24 +219,34 @@ def send_welcome(message):
         print("Errore scrittura nome")
 
     if str(user_id) in read_ids():
-        bot.send_message(user_id, 'Sei già presente nel database! Appena disponibile ti sarà inviato il menu del giorno.')
+        #bot.send_message(user_id, 'Sei già presente nel database! Appena disponibile ti sarà inviato il menu del giorno.')
+        message_queue.put((user_id, 'Sei già presente nel database! Appena disponibile ti sarà inviato il menu del giorno.'))
+        sleep(1)
     else:
         write_id(user_id)
-        bot.send_message(user_id, 'Benvenuto! Sei stato inserito nel database! Appena disponibile ti sarà inviato il menu del giorno.')
+        #bot.send_message(user_id, 'Benvenuto! Sei stato inserito nel database! Appena disponibile ti sarà inviato il menu del giorno.')
+        message_queue.put((user_id, 'Benvenuto! Sei stato inserito nel database! Appena disponibile ti sarà inviato il menu del giorno.'))
+        sleep(1)
         helper(message)
         global new_menu, daily
 
         if not daily:
-            bot.send_message(user_id,new_menu)
+            #bot.send_message(user_id,new_menu)
+            message_queue.put((user_id,new_menu))
+            sleep(1)
 
 @bot.message_handler(commands=['autori'])
 def send_autori(message):
     print("AUTORI")
     user_id = message.chat.id
     if str(user_id) in read_ids():
-        bot.send_message(user_id, text = 'Gli autori di questo bot sono:\n\nTELEGRAM:\n @antonio_adascaliti \n @lodipi \n\nINSTAGRAM:\n <a href="https://www.instagram.com/antonio_adascaliti/">antonio_adascaliti</a>  \n <a href="https://www.instagram.com/lorenzo.dipi/">lorenzo.dipi</a>', parse_mode=ParseMode.HTML)
+        #bot.send_message(user_id, text = 'Gli autori di questo bot sono:\n\nTELEGRAM:\n @antonio_adascaliti \n @lodipi \n\nINSTAGRAM:\n <a href="https://www.instagram.com/antonio_adascaliti/">antonio_adascaliti</a>  \n <a href="https://www.instagram.com/lorenzo.dipi/">lorenzo.dipi</a>', parse_mode=ParseMode.HTML)
+        message_queue.put((user_id, text = 'Gli autori di questo bot sono:\n\nTELEGRAM:\n @antonio_adascaliti \n @lodipi \n\nINSTAGRAM:\n <a href="https://www.instagram.com/antonio_adascaliti/">antonio_adascaliti</a>  \n <a href="https://www.instagram.com/lorenzo.dipi/">lorenzo.dipi</a>', parse_mode=ParseMode.HTML))
+        sleep(1)
     else:
-        bot.send_message(user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi")
+        #bot.send_message(user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi")
+        message_queue.put((user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi"))
+        sleep(1)
 
 
 @bot.message_handler(commands=['stop'])
@@ -237,9 +255,13 @@ def remove_user(message):
     user_id = message.chat.id
     if str(user_id) in read_ids():
         delete_element(str(user_id))
-        bot.send_message(user_id, 'Ci dispiace che tu ci lasci così presto! Usa il comando /start per tornare!')
+        #bot.send_message(user_id, 'Ci dispiace che tu ci lasci così presto! Usa il comando /start per tornare!')
+        message_queue.put((user_id, 'Ci dispiace che tu ci lasci così presto! Usa il comando /start per tornare!'))
+        sleep(1)
     else:
-        bot.send_message(user_id, text = "Il bot è già disattivato. \nUtilizza il comando /start per avviarlo!")
+        #bot.send_message(user_id, text = "Il bot è già disattivato. \nUtilizza il comando /start per avviarlo!")
+        message_queue.put((user_id, text = "Il bot è già disattivato. \nUtilizza il comando /start per avviarlo!"))
+        sleep(1)
 
 
 @bot.message_handler(commands=['help'])
@@ -247,9 +269,13 @@ def helper(message):
     print("HELP")
     user_id = message.chat.id
     if str(user_id) in read_ids():
-        bot.send_message(user_id, 'In questo bot potrai utilizzare i seguenti comandi:\n - /start per inserire il tuo id nel nostro database (ci serve solo per inviarti il menu!)\n - /stop per rimuovere il tuo id dal database quando lo vorrai\n - /help per farti inviare questo messaggio\n - /autori per sapere chi ha fatto questo bot')
+        #bot.send_message(user_id, 'In questo bot potrai utilizzare i seguenti comandi:\n - /start per inserire il tuo id nel nostro database (ci serve solo per inviarti il menu!)\n - /stop per rimuovere il tuo id dal database quando lo vorrai\n - /help per farti inviare questo messaggio\n - /autori per sapere chi ha fatto questo bot')
+        message_queue.put((user_id, 'In questo bot potrai utilizzare i seguenti comandi:\n - /start per inserire il tuo id nel nostro database (ci serve solo per inviarti il menu!)\n - /stop per rimuovere il tuo id dal database quando lo vorrai\n - /help per farti inviare questo messaggio\n - /autori per sapere chi ha fatto questo bot'))
+        sleep(1)
     else:
-        bot.send_message(user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi")
+        #bot.send_message(user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi")
+        message_queue.put((user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi"))
+        sleep(1)
         
         
 @bot.message_handler(commands=['stats'])
@@ -261,8 +287,14 @@ def stats(message):
         if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             num_db = conta_database("database.json")
             num_nomi = conta_database("nomi.json")
-            bot.send_message(user_id, str(num_db))
-            bot.send_message(user_id, str(num_nomi))
+            #bot.send_message(user_id, str(num_db))
+            #sleep(1)
+            #bot.send_message(user_id, str(num_nomi))
+            
+            stringa = "database: '{}' \nnomi: '{}'".format(num_db, num_nomi)
+            #bot.send_message(user_id, stringa)
+            message_queue.put((user_id, stringa))
+            sleep(1)
     except:
         print("Errore conteggio")
 
@@ -274,7 +306,9 @@ def names(message):
         print(user_id)
         if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             nomi = leggi_nomi("nomi.json")
-            bot.send_message(user_id, str(nomi))
+            #bot.send_message(user_id, str(nomi))
+            message_queue.put((user_id, str(nomi)))
+            sleep(1)
     except:
         print("Errore lettura nomi")
 
@@ -286,7 +320,9 @@ def databaseID(message):
         print(user_id)
         if(str(user_id)=="220450935" or str(user_id)=="168648726"):
             db = leggi_database("database.json")
-            bot.send_message(user_id, str(db))
+            #bot.send_message(user_id, str(db))
+            message_queue.put((user_id, str(db)))
+            sleep(1)
     except:
         print("Errore lettura database")        
 # ------------------------------------------------------------------------------
@@ -537,8 +573,13 @@ def daily_trigger():
     daily = True
 
 # ------------------------------------------------------------------------------
-#while True:
-#    bot.polling()
+
+# Creazione della coda dei messaggi
+message_queue = queue.Queue()
+t5 = threading.Thread(target=process_message_queue)
+t5.daemon = True
+t5.start()
+
 bot.remove_webhook()
 #bot.polling()
 if __name__ == "__main__":
