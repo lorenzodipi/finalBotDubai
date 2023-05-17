@@ -199,17 +199,17 @@ def leggi_nomi(file_path):
                 
 # ------------------------------------------------------------------------------
 def process_message_queue():
-    try:
-        while True:
+    while True:
+        try:
             user_id, text = message_queue.get()
             bot.send_message(user_id, text)
             sleep(0.5)
             message_queue.task_done()
-    except Exception as e:
-        error_message = f"Queue errore: {traceback.format_exc()}"
-        bot.send_message(168648726, error_message)
-    finally:
-        bot.send_message(168648726, "Queue chiusa")
+        except Exception as e:
+            error_message = f"Queue errore: {traceback.format_exc()}"
+            bot.send_message(168648726, error_message)
+            
+    bot.send_message(168648726, "Queue chiusa")
 
 
 @bot.message_handler(commands=['start'])
