@@ -242,7 +242,7 @@ def send_autori(message):
     user_id = message.chat.id
     if str(user_id) in read_ids():
         #bot.send_message(user_id, text = 'Gli autori di questo bot sono:\n\nTELEGRAM:\n @antonio_adascaliti \n @lodipi \n\nINSTAGRAM:\n <a href="https://www.instagram.com/antonio_adascaliti/">antonio_adascaliti</a>  \n <a href="https://www.instagram.com/lorenzo.dipi/">lorenzo.dipi</a>', parse_mode=ParseMode.HTML)
-        message_queue.put((user_id, 'Gli autori di questo bot sono:\n\nTELEGRAM:\n @antonio_adascaliti \n @lodipi \n\nINSTAGRAM:\n <a href="https://www.instagram.com/antonio_adascaliti/">antonio_adascaliti</a>  \n <a href="https://www.instagram.com/lorenzo.dipi/">lorenzo.dipi</a>', ParseMode.HTML))
+        message_queue.put((user_id, ('Gli autori di questo bot sono:\n\nTELEGRAM:\n @antonio_adascaliti \n @lodipi \n\nINSTAGRAM:\n <a href="https://www.instagram.com/antonio_adascaliti/">antonio_adascaliti</a>  \n <a href="https://www.instagram.com/lorenzo.dipi/">lorenzo.dipi</a>', ParseMode.HTML)))
         sleep(1)
     else:
         #bot.send_message(user_id, text = "Sembra che tu sia nuovo! Usa il comando /start per usufruire di tutti i comandi")
