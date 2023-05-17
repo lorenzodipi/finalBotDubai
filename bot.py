@@ -201,7 +201,7 @@ def process_message_queue():
     while True:
         user_id, text = message_queue.get()
         bot.send_message(user_id, str(text))
-        sleep(1)
+        sleep(0.5)
         message_queue.task_done()
 
 
