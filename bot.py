@@ -35,7 +35,7 @@ LOGURL='https://www.facebook.com/login/'
 
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
-daily = True
+daily = False
 new_menu = None
 global driver
 # sslify = SSLify(server)
@@ -205,8 +205,9 @@ def process_message_queue():
             bot.send_message(user_id, text)
             sleep(0.5)
             message_queue.task_done()
-    except:
-        bot.send_message(168648726, "Queue errore")
+    except Exception as e:
+        error_message = f"Queue errore: {traceback.format_exc()}"
+        bot.send_message(168648726, error_message)
     finally:
         bot.send_message(168648726, "Queue chiusa")
 
