@@ -159,7 +159,8 @@ def send_menu(menu):
     for id in database:
         if id != "":
             try:
-                bot.send_message(int(id), menu)
+                #bot.send_message(int(id), menu)
+                message_queue.put((int(id), menu))
             except Forbidden:
                 delete_element(str(id))
             except:
