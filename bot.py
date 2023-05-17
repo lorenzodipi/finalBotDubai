@@ -36,7 +36,7 @@ LOGURL='https://www.facebook.com/login/'
 
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
-daily = False
+daily = True
 new_menu = None
 global driver
 # sslify = SSLify(server)
