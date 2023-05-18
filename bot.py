@@ -203,12 +203,22 @@ def process_message_queue():
     while True:
         try:
             user_id, text = message_queue.get()
-            bot.send_message(user_id, text)
+            try:
+                bot.send_message(user_id, text)
+            except Forbidden:
+                delete_element(str(id))
+            except:
+                print("Errore")
+                
             sleep(0.5)
             message_queue.task_done()
         except Exception as e:
             error_message = f"Queue errore: {traceback.format_exc()}"
             bot.send_message(168648726, error_message)
+            try:
+                message_queue.task_done()
+            except:
+                print("Errore queue done")
             
     bot.send_message(168648726, "Queue chiusa")
 
