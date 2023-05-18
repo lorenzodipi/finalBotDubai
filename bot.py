@@ -6,6 +6,7 @@ import traceback
 
 import schedule
 import telebot
+from telebot.apihelper import ApiTelegramException
 from threading import Thread
 from time import sleep
 import requests
