@@ -162,8 +162,6 @@ def send_menu(menu):
             try:
                 #bot.send_message(int(id), menu)
                 message_queue.put((int(id), menu))
-            except Forbidden:
-                delete_element(str(id))
             except:
                 print("Errore")
                 
@@ -205,8 +203,15 @@ def process_message_queue():
             user_id, text = message_queue.get()
             try:
                 bot.send_message(user_id, text)
-            except Forbidden:
-                delete_element(str(id))
+            except ApiTelegramException as e:
+                if e.result_json['error_code'] == 403:
+                    # Bot blocked by the user
+                    delete_element(str(id))
+                else:
+                    try:
+                        bot.send_message(168648726, e.result_json)
+                    except:
+                        print("Errore")
             except:
                 print("Errore")
                 
