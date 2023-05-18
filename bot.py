@@ -156,6 +156,8 @@ def delete_element(id_to_delete):
 
 
 def send_menu(menu):
+    print("Sono in send")
+    sleep(5)
     database = read_ids()
     for id in database:
         if id != "":
