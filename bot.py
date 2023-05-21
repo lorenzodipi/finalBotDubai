@@ -616,7 +616,9 @@ if __name__ == "__main__":
     t.start()
 
     #update_wrapper()
-    write_new_menu(get_menu())
+    global new_menu
+    new_menu = get_menu()
+    write_new_menu(new_menu)
 
 
     TIME = "09:00"
