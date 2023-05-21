@@ -615,7 +615,8 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
-    update_wrapper()
+    #update_wrapper()
+    write_new_menu(get_menu())
 
 
     TIME = "09:00"
