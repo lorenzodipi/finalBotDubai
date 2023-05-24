@@ -598,6 +598,20 @@ def update_wrapper():
 def daily_trigger():
     global daily
     daily = True
+    
+def connection_bot():
+    while True:
+        if not bot.polling():
+            try:
+                 bot.polling()
+            except:
+                 print("Errore bot.polling")
+        if not bot.idle():
+            try:
+                 bot.idle()
+            except:
+                 print("Errore bot.idle")
+        sleep(600)
 
 # ------------------------------------------------------------------------------
 
@@ -611,7 +625,8 @@ bot.remove_webhook()
 #bot.polling()
 if __name__ == "__main__":
 
-    t = threading.Thread(target=bot.polling)
+    #t = threading.Thread(target=bot.polling)
+    t = threading.Thread(target=connection_bot)
     t.daemon = True
     t.start()
 
@@ -636,7 +651,9 @@ if __name__ == "__main__":
     t2.daemon = True
     t2.start()
     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5599)))
-    bot.idle()
+    
+    
+    #bot.idle()
 
 #
 # ------------------------------------------------------------------------------
