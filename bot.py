@@ -436,10 +436,6 @@ def get_menu():
         except:
             print("niente cookies")
 
-        #f = open("source.txt", "w",  encoding="utf-8")
-        #f.write(driver.page_source)
-        #f.close()
-
         sleep(2)
         driver.find_element(by=By.XPATH, value='//input[@name="email"]').send_keys(MAIL)
         driver.find_element(by=By.XPATH, value='//input[@name="pass"]').send_keys(PSW)
@@ -485,19 +481,9 @@ def get_menu():
         div_block = None
 
         while div_block is None:
-            # print("ciao")
-            # try:
-            #     div_block = driver.find_element(by=By.XPATH, value='//div[@data-pagelet="ProfileTimeline"]')
-            #     #div_block = driver.find_element(by=By.XPATH, value='//div[@class="x9f619 x1n2onr6 x1ja2u2z x2bj2ny"]')
-            #     div_block = div_block.find_elements(by=By.XPATH, value=".//div")[0]
-            # except:
-            #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             try:
-                div_block = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'div.x9f619.x1n2onr6.x1ja2u2z.xeuugli.xs83m0k.x1xmf6yo.x1emribx.x1e56ztr.x1i64zmx.xjl7jj.xnp8db0.x1d1medc.x7ep2pv.x1xzczws')))
-                div_block = div_block.find_elements(by=By.XPATH, value=".//div")[1]
-                div_block = driver.find_element(by=By.XPATH, value='//div[@data-pagelet="ProfileTimeline"]')
+                div_block = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'div[data-pagelet="ProfileTimeline"]')))
             except:
-                 #driver.execute_script("window.scrollTo(0, document.body.scrollHeight/2);")
                 div_block = None
                 sleep(2)
 
@@ -509,40 +495,16 @@ def get_menu():
 
         while bool:
             try:
-                element = div_block.find_elements(by=By.XPATH, value=".//div")[i]
-                if "Oggi vi proponiamo" in element.text:
-                    element.find_element(by=By.XPATH, value="//div[contains(text(), 'Altro...')]").click()
-                    element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR,'div.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1vvkbs.x126k92a')))
-                    bool = False
-                else:
-                    raise ValueError("L'elemento non contiene il testo 'Oggi vi proponiamo'")
-                #a = element.find_element( by=By.XPATH, value="//a[@class='x1i10hfl xjbqb8w x6umtig x1b1mbwd xaqea5y xav7gou x9f619 x1ypdohk xt0psk2 xe8uvvx xdj266r x11i5rnm xat24cr x1mh8g0r xexx8yu x4uap5 x18d9i69 xkhd6sd x16tdsg8 x1hl2dhg xggy1nq x1a2a7pz x1heor9g xt0b8zv xo1l8bm']")
-                #link = a.get_attribute('href')
+                element = WebDriverWait(div_block, 10).until(EC.visibility_of_element_located((By.XPATH, './/div[contains(text(), "Oggi vi proponiamo")]')))
+                element.find_element(by=By.XPATH, value="//div[contains(text(), 'Altro...')]").click()
+                sleep(1)
+                element = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div.xdj266r.x11i5rnm.xat24cr.x1mh8g0r.x1vvkbs.x126k92a')))
+                bool = False
             except:
-                i = i+1
-                print("Errore nel prendere il div del menu' --> i: {}".format(i))
-        # if menu is None:
-        #     sleep(1)
-        #     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        #     sleep(2)
-
-        # print(driver.current_url)
-        #
-        # f = open("source.txt", "w",  encoding="utf-8")
-        # f.write(driver.page_source)
-        # f.close()
-        #
-        #
-        #
-        # oggi = None
-        # while oggi is not None:
-        #     try:
-        #         #oggi = driver.find_element(by=By.XPATH, value='//p[contains(text(), "Oggi vi proponiamo")]')
-        #         oggi = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.XPATH, '//p[contains(text(), "Oggi vi proponiamo")]')))
-        #     except:
-        #         sleep(2)
-        #         print("Eccezione")
-        #
+                print("Except Menu")
+                driver.execute_script("window.scrollBy(0, 10);")
+                sleep(1)
+        
         print(element.text)
         return format(element.text)
     finally:
