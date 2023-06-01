@@ -561,16 +561,25 @@ def daily_trigger():
     global daily
     daily = True
     
-def connection_bot():
+def connection_server():
         while True:
             try:
                 while True:
-                    print("PRE Aperto server")
                     server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5599)))
-                    print("Aperto server")
                     sleep(300)
             except Exception as e:
                 print("Connessione persa. Ripristino in corso...")
+                time.sleep(5)  # Attendere per 5 secondi prima di riprovare il ripristino
+                continue
+                
+                
+def connection_bot():
+        while True:
+            try:
+                if not bot.infinity_polling():
+                    bot.infinity_polling()
+            except Exception as e:
+                print("Connessione bot persa. Ripristino in corso...")
                 time.sleep(5)  # Attendere per 5 secondi prima di riprovare il ripristino
                 continue
 
@@ -613,15 +622,15 @@ if __name__ == "__main__":
     t2.start()
     print("t2 fatto")
     
-    t = threading.Thread(target=connection_bot)
+    t = threading.Thread(target=connection_server)
     t.daemon = True
     t.start()
+    
+    t_bot = threading.Thread(target=connection_bot)
+    t_bot.daemon = True
+    t_bot.start()
     #server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5599)))
-    
-    
-    
-    
-    bot.infinity_polling()
+   
 
 #
 # ------------------------------------------------------------------------------
