@@ -589,7 +589,7 @@ if __name__ == "__main__":
     t.daemon = True
     t.start()
 
-    update_wrapper()
+    #update_wrapper()
     #new_menu = get_menu()
     #write_new_menu(new_menu)
 
