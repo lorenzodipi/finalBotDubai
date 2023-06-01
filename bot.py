@@ -563,14 +563,14 @@ def daily_trigger():
     
 def connection_bot():
         while True:
-        try:
-            while True:
-                server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5599)))
-                sleep(300)
-        except Exception as e:
-            print("Connessione persa. Ripristino in corso...")
-            time.sleep(5)  # Attendere per 5 secondi prima di riprovare il ripristino
-            continue
+            try:
+                while True:
+                    server.run(host="0.0.0.0", port=int(os.environ.get('PORT', 5599)))
+                    sleep(300)
+            except Exception as e:
+                print("Connessione persa. Ripristino in corso...")
+                time.sleep(5)  # Attendere per 5 secondi prima di riprovare il ripristino
+                continue
 
 # ------------------------------------------------------------------------------
 
