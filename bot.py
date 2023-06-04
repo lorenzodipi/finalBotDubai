@@ -527,12 +527,14 @@ def update():
     global new_menu, daily
     print(f"Guarda mamma sono in update! {daily} \n")
     check = True
+    n = 0
     if daily:
-        while check:
+        while check and n<20:
+            n=n+1
             file = open('menu.txt', 'r', encoding="utf-8")
             old_menu = file.read()
             file.close()
-
+            
             new_menu = get_menu()
 
             if new_menu!=old_menu:
