@@ -595,16 +595,14 @@ t5.start()
 
 bot.remove_webhook()
 #bot.polling()
-print("Inizio")
 if __name__ == "__main__":
     print("IF")
     #t = threading.Thread(target=bot.polling)
 
-    #update_wrapper()
+    update_wrapper()
     #new_menu = get_menu()
     #write_new_menu(new_menu)
 
-    print("t passato")
     TIME = "09:00"
 
     schedule.every().day.at("00:00", "Europe/Rome").do(daily_trigger)
@@ -622,7 +620,6 @@ if __name__ == "__main__":
     t2=Thread(target = schedule_checker)
     t2.daemon = True
     t2.start()
-    print("t2 fatto")
     
     t = threading.Thread(target=connection_server)
     t.daemon = True
